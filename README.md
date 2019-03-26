@@ -97,4 +97,4 @@ respectively. This enables easily customisable deployment via Docker etc.
   creation/teardown.
 - While logging is to STDOUT/STDERR for use by Docker, it could be structured
   for better consumption.
-- Makefule assumes GNU make
+- Makefile assumes GNU make
