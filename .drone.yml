@@ -1,0 +1,15 @@
+kind: pipeline
+name: default
+steps:
+    - name: test
+      image: "golang:alpine"
+      commands:
+          - apk --update add --no-cache build-base ca-certificates git
+          - make test server
+
+    - name: publish
+      image: plugins/docker
+      repo: myob/test
+      tags: latest
+      when:
+          branch: master
