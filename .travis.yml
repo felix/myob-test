@@ -1,0 +1,10 @@
+language: go
+services:
+    - docker
+go:
+    - "1.x"
+    - master
+script:
+    - go test -coverprofile=coverage.txt -covermode=atomic
+after_success:
+    - docker build -t myob/test .
