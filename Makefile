@@ -8,11 +8,16 @@ binary ?=	server
 # This is to allow Go to work in Alpine docker image as well as bare metal
 GOPATH ?=	$(HOME)/go
 
+# Targets
+
+build: $(binary)
+
+.PHONY: all
+all: clean test build-all ## Clean build for current architecture
+
 # Default build for host architecture
 $(binary): $(src) ## Build for current architecture
 	go build -ldflags "-w -s -X main.version=$(version)" -o $@ ./cmd
-
-all: clean test build-all ## Clean build for current architecture
 
 build-all: $(platforms) ## Build for all architectures
 
@@ -21,7 +26,7 @@ $(platforms): $(src)
 	GOOS=$@ go build $(ldflags) -o $(binary)-$@ ./cmd
 
 docker:
-	docker
+	docker build .
 
 .PHONY: test
 test: lint ## Run tests and create coverage report
