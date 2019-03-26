@@ -32,10 +32,10 @@ Alternatively the following commands can be used if make is not available:
 
 ```shell
 # Single binary
-go build -ldflags "-w -s -X main.version=$(git describe --always)" -o server ./cmd
+go build -ldflags "-w -s -X main.version=$(git describe --always)" -o server ./cmd/api
 
 # Cross-compiled for Darwin
-GOOS=darwin go build -ldflags "-w -s -X main.version=$(git describe --always)" -o server ./cmd
+GOOS=darwin go build -ldflags "-w -s -X main.version=$(git describe --always)" -o server ./cmd/api
 ```
 
 The above command embed the current git version into the binary for use by one
