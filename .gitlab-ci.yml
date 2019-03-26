@@ -1,0 +1,17 @@
+image: golang:alpine
+
+before_script:
+    - apk --update add --no-cache git make gcc musl-dev
+
+unit_tests:
+    stage: test
+    tags:
+        - docker
+    script:
+        - make version
+        - >
+            make test |awk '/^ok/ {sum+=$5; count++} END { print "coverage: " sum/count "% of statements"}'
+    artifacts:
+        paths:
+            - server
+            - coverage.html
