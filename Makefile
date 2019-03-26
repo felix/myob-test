@@ -17,7 +17,7 @@ all: clean test build-all ## Clean build for current architecture
 
 # Default build for host architecture
 $(binary): $(src) ## Build for current architecture
-	go build -ldflags "-w -s -X main.version=$(version)" -o $@ ./cmd
+	go build -ldflags "-w -s -X main.version=$(version)" -o $@ ./cmd/api
 
 build-all: $(platforms) ## Build for all architectures
 
@@ -25,6 +25,13 @@ build-all: $(platforms) ## Build for all architectures
 $(platforms): $(src)
 	GOOS=$@ go build $(ldflags) -o $(binary)-$@ ./cmd
 
+lambda: $(src)
+	go build -ldflags "-w -s -X main.version=$(version)" -o $@ ./cmd/lambda
+
+handler.zip: lambda
+	zip $@ $<
+
+.PHONY: docker
 docker:
 	docker build .
 
@@ -44,6 +51,7 @@ $(GOPATH)/bin/golint:
 .PHONY: clean
 clean: ## Clean up temp files and binaries
 	@rm -rf coverage*
+	@rm -rf lambda handler.zip
 	@rm -f $(binary) $(binary)-*
 
 .PHONY: help

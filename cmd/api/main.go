@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	server "github.com/felix/myob"
+	server "github.com/felix/ops-technical-test"
 )
 
 // Version is set during build

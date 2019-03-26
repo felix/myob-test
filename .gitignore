@@ -1,3 +1,5 @@
 coverage*
 server-*
 server
+handler.zip
+lambda

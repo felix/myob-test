@@ -38,11 +38,13 @@ go build -ldflags "-w -s -X main.version=$(git describe --always)" -o server ./c
 GOOS=darwin go build -ldflags "-w -s -X main.version=$(git describe --always)" -o server ./cmd
 ```
 
-The above command embed the current git version into the binary for use by one of the API endpoints.
+The above command embed the current git version into the binary for use by one
+of the API endpoints.
 
 ## Testing
 
-The native Go testing framework is used to test the handlers. They also produce a coverage report. They can be run via the following commands:
+The native Go testing framework is used to test the handlers. They also produce
+a coverage report. They can be run via the following commands:
 
 ```shell
 # Via make
@@ -57,13 +59,24 @@ Current coverage is only about 63%.
 
 ## Deployment
 
-The build procedure produces a single binary as the artifact. This can be copied to the destination and run directly. For deployment to other architectures from the build host the cross-compiled binaries will need to be used.
+The build procedure produces a single binary as the artifact. This can be
+copied to the destination and run directly. For deployment to other
+architectures from the build host the cross-compiled binaries will need to be
+used.
 
-A Dockerfile is provided for deployment via docker. This is a two stage dockerfile producing a small image based on Alpine linux with a single binary as the entrypoint. This can then be published to a registry for later deployment.
+A Dockerfile is provided for deployment via docker. This is a two stage
+dockerfile producing a small image based on Alpine linux with a single binary
+as the entrypoint. This can then be published to a registry for later
+deployment.
+
+Deployment to an AWS lambda function is done via the make target 'handler.zip'.
+While this may not have been a requirement for the task (only a single handler
+is published) it was just for fun.
 
 ## Usage
 
-The executable accepts the following command line options for configuring the listening address and port:
+The executable accepts the following command line options for configuring the
+listening address and port:
 
 ```shell
 -h HOST
@@ -72,13 +85,16 @@ The executable accepts the following command line options for configuring the li
 	Listen at PORT. Default is 8080.
 ```
 
-These can also be specified via environment variables as HOST and PORT respectively. This enables easily customisable deployment via Docker etc.
+These can also be specified via environment variables as HOST and PORT
+respectively. This enables easily customisable deployment via Docker etc.
 
-## Possible improvements or issues
+## Assumptions, possible improvements or issues
 
 - Building and deployment via Gitlab is based on experience but is untested.
 - Building and deployment via drone.io is based on experience but is untested.
 - Building and deployment via TravisCI is based on experience but is untested.
-- Tests only cover the handlers and not the main process and thread creation/teardown.
-- While logging is to STDOUT/STDERR for use by Docker, it could be structured for better consumption.
-- Add support for deployment as an AWS lambda function.
+- Tests only cover the handlers and not the main process and thread
+  creation/teardown.
+- While logging is to STDOUT/STDERR for use by Docker, it could be structured
+  for better consumption.
+- Makefule assumes GNU make
